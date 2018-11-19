@@ -6,13 +6,15 @@ import time
 from nltk.corpus import stopwords
 import re
 
-ckey = ''
-csecret = ''
-atoken = ''
-asecret = ''
+ckey = 'iTu36JdKcsr2P2nJiDBNL0BO8'
+csecret = 'coYmcooEVdRTAaVCiypfjunbtwo8bbFTVmSGXu5xnU4uH1nugO'
+atoken = '759817916091031552-BFDMakQwegj80qWbsMFc2H3iHD4HcoD'
+asecret = 'bxV4XtW0TkLOgrLyniUOABXgjWd8MeFGEh5naz4KYMarJ'
+
 
 def get_unique_words(txt):
     s = set(stopwords.words('english'))
+    s.add(" ")
     words = ""
     for i in txt.split(" "):
         if i not in s:
@@ -34,7 +36,7 @@ class listener(StreamListener):
             my_data_ret["status_count"] = my_data['user']['statuses_count']
             print(type(str(my_data['text'].encode("utf-8"))))
             my_data_ret["unique_words"] = get_unique_words(str(my_data['text'].encode("utf-8")))
-            my_data_ret["links"] = get_links(my_data['text'].encode("utf-8"))
+            my_data_ret["links"] = get_links(str(my_data['text'].encode("utf-8")))
             # print(my_data_ret)
 
             saveFile = open("tweetDB4.csv", 'a')
@@ -46,12 +48,25 @@ class listener(StreamListener):
             print('Failed', str(e))
             time.sleep(5)
 
+    def on_exception(self, exception):
+        print(exception)
+        return True
+
+    def on_timeout(self):
+        print("Timeout")
+        return True
+
     def on_error(self, status_code):
         print(status_code)
 
+with open("tweetDB4.csv", "w"):
+    pass
+
+print("Enter the keyword-")
+keyword = input()
 
 print("getting tweets")
 auth = OAuthHandler(ckey, csecret)
 auth.set_access_token(atoken, asecret)
 twitterStream = Stream(auth, listener())
-twitterStream.filter(track=["modi"])
+twitterStream.filter(track=[keyword])
