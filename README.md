@@ -17,11 +17,8 @@ Python
 
 1. **Clone the repository**- Command - _git clone https://github.com/vishuvish/Twitter_Reports_
 2. **Install python packages**- Command - _pip install -r requirements.txt_
-3. **You need to run 2 files simultaneously to generate the reports.**
-Command - _python tweets.py_ 
-This will ask the user to input the keyword and then it will request the Twitter Streaming API and start reading the data.
-Command - _python scheduler.py_
-This file is used to generate the reports every minute for the past 5 mins.
+3. **You need to run 2 files simultaneously to generate the reports.**- Command - _python tweets.py_ (This will ask the user to input the keyword and then it will request the Twitter Streaming API and start reading the data.)
+4. Command - _python scheduler.py_ (This file is used to generate the reports every minute for the past 5 mins.)
 
 ## **Improvements we can done-**
 
