@@ -12,6 +12,9 @@ def get_unique_words(count):
     dfr = pd.DataFrame.from_dict(count, orient='index')
     return dfr.head(10)
 
+def get_twitter_user_details(twitter_user):
+    return pd.DataFrame.from_dict(twitter_user, orient='index')
+
 
 def job():
     print("Generating Reports:\n")
@@ -25,7 +28,7 @@ def job():
 
     with open('tweetDB4.csv', 'r', encoding='utf-8') as f:
         i = 0
-        words, links = [], []
+        words, links, twitter_user = [], [], {}
         for line in f:
 
             # This will read the line in the tweetDB4.csv file.
@@ -39,13 +42,17 @@ def job():
             it will print the report on the command prompt.
             '''
             if 0 <= (current_time - data["timestamp"]) <= 300:
-                table1.add_row([i+1, data["user"], data["status_count"]])
+                if data["user"] in twitter_user:
+                    twitter_user[data["user"]] += 1
+                else:
+                    twitter_user[data["user"]] = 1
+                # table1.add_row([i+1, data["user"], data["status_count"]])
                 words+=((data["unique_words"]).split(" ")) # Concatenate the list of unique words into words list.
                 links+=((data["links"][1:-1]).split(",")) # It will extract the links from a string.
                 i+=1
             elif data["timestamp"] > current_time or not data:
                 print("User Report:")
-                print(table1) # Print the user report in table form.
+                print(get_unique_words(twitter_user)) # Print the user report in table form.
                 print("\nContent Report:")
                 count_words = Counter(words)
                 print(get_unique_words(count_words)) # Print the list of top 10 unique words with it's frequency.

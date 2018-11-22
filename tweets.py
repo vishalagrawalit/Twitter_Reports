@@ -39,7 +39,6 @@ class listener(StreamListener):
         try:
             my_data_ret["timestamp"] = time.time()
             my_data_ret["user"] = my_data['user']['name']
-            my_data_ret["status_count"] = my_data['user']['statuses_count']
             print(type(str(my_data['text'].encode("utf-8"))))
             my_data_ret["unique_words"] = get_unique_words(str(my_data['text'].encode("utf-8")))
             my_data_ret["links"] = get_links(str(my_data['text'].encode("utf-8")))
